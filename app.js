@@ -5,7 +5,7 @@ const ejs = require('ejs');
 const app = express();
 
 // Configurações do servidor
-const PORT = 3000;
+const port = 3001 || process.env.PORT;
 
 // Conexão com o banco de dados
 mongoose.connect('mongodb://localhost/loja-online', {
@@ -37,6 +37,6 @@ app.get('/', async (req, res) => {
 app.set('view engine', 'ejs');
 
 // Inicialização do servidor
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+app.listen(port, () => {
+  console.log(`Servidor rodando na porta ${port}`);
 });
