@@ -1,0 +1,24 @@
+version: 0.2
+
+phases:
+  install:
+    run-as: root
+    commands:
+      - echo Entered the install phase...
+      - apt-get update -y
+      - apt-get install -y mysql
+  pre_build:
+    run-as: root
+    commands:
+      - npm install
+      - yum update -y
+      - yum install -y mysql
+  build:
+    run-as: root
+    commands:
+      - npm run build
+      - systemctl start mariadb
+      - systemctl enable mariadb
+artifacts:
+  files:
+    - '**/*'
