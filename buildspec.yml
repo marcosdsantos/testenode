@@ -6,7 +6,7 @@ phases:
     commands:
       - npm install
       - yum update -y
-      - yum install -y mysql
+      - yum install -y mariadb-server
   build:
     run-as: root
     commands:
