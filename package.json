@@ -1,0 +1,12 @@
+{
+  "name": "exemplo-node-mysql",
+  "version": "1.0.0",
+  "description": "Exemplo de aplicação Node.js com banco de dados MySQL",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql": "^2.18.1"
+  },
+  "scripts": {
+    "start": "node app.js"
+  }
+}

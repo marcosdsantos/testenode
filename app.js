@@ -1,42 +1,37 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const ejs = require('ejs');
+const mysql = require('mysql');
 
 const app = express();
+const port = process.env.PORT || 3000;
 
-// Configurações do servidor
-const port = 3001 || process.env.PORT;
+// Configuração do banco de dados
+const db = mysql.createConnection({
+  host: 'localhost',
+  user: 'meuuser',
+  password: 'minhasenha',
+  database: 'dbsite'
+});
 
 // Conexão com o banco de dados
-mongoose.connect('mongodb://localhost/loja-online', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => {
-  console.log('Conectado ao banco de dados');
-}).catch((err) => {
-  console.error('Erro ao conectar ao banco de dados:', err);
+db.connect((err) => {
+  if (err) {
+    throw err;
+  }
+  console.log('Conexão com o banco de dados MySQL estabelecida.');
 });
 
-// Definição do modelo de produto
-const ProductSchema = new mongoose.Schema({
-  name: String,
-  price: Number,
-  description: String,
-  imageUrl: String
+// Rota para listar todos os produtos
+app.get('/produtos', (req, res) => {
+  const sql = 'SELECT * FROM produtos';
+  db.query(sql, (err, result) => {
+    if (err) {
+      throw err;
+    }
+    res.json(result);
+  });
 });
-
-const Product = mongoose.model('Product', ProductSchema);
-
-// Rotas do servidor
-app.get('/', async (req, res) => {
-  const products = await Product.find();
-  res.render('index', { products });
-});
-
-// Configuração do view engine
-app.set('view engine', 'ejs');
 
 // Inicialização do servidor
 app.listen(port, () => {
-  console.log(`Servidor rodando na porta ${port}`);
+  console.log(`Servidor iniciado na porta ${port}.`);
 });
